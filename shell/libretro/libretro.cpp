@@ -727,6 +727,63 @@ static bool read_retroarch_core_option_value(const std::string& key, std::string
 	return false;
 }
 
+static bool read_retroarch_opt_value(const std::string& key, std::string& out)
+{
+	const char *sys_dir = nullptr;
+	if (!environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &sys_dir) || !sys_dir || !sys_dir[0])
+		return false;
+
+	std::string base(sys_dir);
+	while (!base.empty() && (base.back() == '\\' || base.back() == '/'))
+		base.pop_back();
+	size_t slash_pos = base.find_last_of("/\\");
+	if (slash_pos == std::string::npos)
+		return false;
+	base.resize(slash_pos);
+
+	std::string retro_cfg = base + slash + "retroarch.cfg";
+	std::string config_dir;
+	if (read_cfg_value(retro_cfg, "config_directory", config_dir) && !config_dir.empty())
+		base = config_dir;
+	else
+		base = base + slash + "config";
+	while (!base.empty() && (base.back() == '\\' || base.back() == '/'))
+		base.pop_back();
+
+	const std::string core_dir = base + slash + "Flycast Dojo GGPO";
+	std::string game_name = get_game_basename();
+	if (!game_name.empty())
+	{
+		size_t game_slash = get_last_slash_pos(game_name);
+		if (game_slash != std::string::npos)
+			game_name = game_name.substr(game_slash + 1);
+		if (!game_name.empty())
+		{
+			const std::string game_opt = core_dir + slash + game_name + ".opt";
+			if (read_cfg_value(game_opt, key, out))
+				return true;
+		}
+	}
+
+	const std::string core_opt = core_dir + slash + "Flycast Dojo GGPO.opt";
+	return read_cfg_value(core_opt, key, out);
+}
+
+static bool read_retroarch_option_override(const std::string& key, std::string& out)
+{
+	if (read_retroarch_opt_value(key, out))
+		return true;
+	return read_retroarch_core_option_value(key, out);
+}
+
+static bool is_preset_ggpo_ip(const std::string& ip)
+{
+	return ip == "127.0.0.1"
+		|| ip == "192.168.0.2"
+		|| ip == "192.168.1.2"
+		|| ip == "10.0.0.2";
+}
+
 static void update_ggpo_options(bool first_startup)
 {
 	bool ggpo_port_set = false;
@@ -773,14 +830,11 @@ static void update_ggpo_options(bool first_startup)
 		env_ip = var.value;
 
 	std::string core_opts_ip;
-	bool core_opts_ip_set = read_retroarch_core_option_value(CORE_OPTION_NAME "_ggpo_remote_ip", core_opts_ip);
-	if (!env_ip.empty())
-	{
-		if (core_opts_ip_set && !core_opts_ip.empty() && env_ip == "127.0.0.1" && core_opts_ip != env_ip)
-			config::NetworkServer = core_opts_ip;
-		else
-			config::NetworkServer = env_ip;
-	}
+	bool core_opts_ip_set = read_retroarch_option_override(CORE_OPTION_NAME "_ggpo_remote_ip", core_opts_ip);
+	if (core_opts_ip_set && !core_opts_ip.empty() && !is_preset_ggpo_ip(core_opts_ip))
+		config::NetworkServer = core_opts_ip;
+	else if (!env_ip.empty())
+		config::NetworkServer = env_ip;
 	else if (core_opts_ip_set && !core_opts_ip.empty())
 		config::NetworkServer = core_opts_ip;
 
