@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{44AF6343-D002-365C-8D13-63520D4E3FFE}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>flycast_libretro</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\\build-libretro\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">flycast_libretro.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">flycast_libretro</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\\build-libretro\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">flycast_libretro.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">flycast_libretro</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">..\\build-libretro\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">flycast_libretro.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">flycast_libretro</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">..\\build-libretro\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">flycast_libretro.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">flycast_libretro</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\\build-libretro\\include;..\\core\\deps\\libchdr\\include;..\\core;..\\core\deps;..\\core\deps\stb;..\\core\deps\json;..\\core\khronos;..\\core\deps\dirent;..\\core\deps\picotcp\include;..\\core\deps\picotcp\modules;..\\core\deps\libretro-common\include;..\\core\deps\xxHash;..\\core\deps\glm;..\\core\deps\glslang;..\\core\deps\glslang\glslang;..\\core\deps\glslang\SPIRV;..\\core\deps\ggpo\include;..\\core\deps\ggpo\lib\ggpo;..\\core\deps\libchdr\include;..\\core\deps\libchdr\deps\zlib-1.2.11;..\\core\deps\libchdr\deps\zlib-1.3.1;..\\core\deps\libchdr\deps\zstd-1.5.6\lib;..\core\deps\libchdr\deps\lzma-24.05\include;..\\core\deps\nowide\include;..\\core\deps\miniupnpc;..\\core\deps\miniupnpc\include;..\\core\deps\libzip\lib;..\\build-libretro\core\deps\libzip;..\\core\deps\libelf\include;..\\core\deps\Vulkan-Headers\include;..\\core\deps\VulkanMemoryAllocator\include;..\\core\deps\xbyak;..\\core\dojo;..\\core\dojo\deps;..\\core\dojo\deps\asio-1.22.0\include;..\\shell\libretro;..\\build-libretro\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8</AdditionalOptions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <OpenMPSupport>true</OpenMPSupport>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);LIBRETRO;_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNING;NOMINMAX;_USE_MATH_DEFINES;_7ZIP_ST;VK_ENABLE_BETA_EXTENSIONS;VK_NO_PROTOTYPES;VK_USE_PLATFORM_WIN32_KHR;USE_VULKAN;HAVE_VULKAN;USE_OPENGL;HAVE_OPENGL;HAVE_OPENGL_MODERN;HAVE_D3D11;NOWIDE_NO_LIB;MINIUPNP_STATICLIB;DOJO_NO_CPR;DOJO_NO_CURL;USE_GGPO;HAVE_CRYPTO;HAVE_WINDOWS_CRYPTO;CMAKE_INTDIR=&quot;Debug&quot;;flycast_libretro_EXPORTS</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>mswsock.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;ws2_32.lib;iphlpapi.lib;winmm.lib;advapi32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>..\\build-libretro\Debug\flycast_libretro.lib</ImportLibrary>
+      <ProgramDataBaseFile>..\\build-libretro\Debug\flycast_libretro.pdb</ProgramDataBaseFile>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\\build-libretro\\include;..\\core\\deps\\libchdr\\include;..\\core;..\\core\deps;..\\core\deps\stb;..\\core\deps\json;..\\core\khronos;..\\core\deps\dirent;..\\core\deps\picotcp\include;..\\core\deps\picotcp\modules;..\\core\deps\libretro-common\include;..\\core\deps\xxHash;..\\core\deps\glm;..\\core\deps\glslang;..\\core\deps\glslang\glslang;..\\core\deps\glslang\SPIRV;..\\core\deps\ggpo\include;..\\core\deps\ggpo\lib\ggpo;..\\core\deps\libchdr\include;..\\core\deps\libchdr\deps\zlib-1.2.11;..\\core\deps\libchdr\deps\zlib-1.3.1;..\\core\deps\libchdr\deps\zstd-1.5.6\lib;..\core\deps\libchdr\deps\lzma-24.05\include;..\\core\deps\nowide\include;..\\core\deps\miniupnpc;..\\core\deps\miniupnpc\include;..\\core\deps\libzip\lib;..\\build-libretro\core\deps\libzip;..\\core\deps\libelf\include;..\\core\deps\Vulkan-Headers\include;..\\core\deps\VulkanMemoryAllocator\include;..\\core\deps\xbyak;..\\core\dojo;..\\core\dojo\deps;..\\core\dojo\deps\asio-1.22.0\include;..\\shell\libretro;..\\build-libretro\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8</AdditionalOptions>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <OpenMPSupport>true</OpenMPSupport>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);NDEBUG;LIBRETRO;_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNING;NOMINMAX;_USE_MATH_DEFINES;_7ZIP_ST;VK_ENABLE_BETA_EXTENSIONS;VK_NO_PROTOTYPES;VK_USE_PLATFORM_WIN32_KHR;USE_VULKAN;HAVE_VULKAN;USE_OPENGL;HAVE_OPENGL;HAVE_OPENGL_MODERN;HAVE_D3D11;NOWIDE_NO_LIB;MINIUPNP_STATICLIB;DOJO_NO_CPR;DOJO_NO_CURL;USE_GGPO;HAVE_CRYPTO;HAVE_WINDOWS_CRYPTO;CMAKE_INTDIR=&quot;Release&quot;;flycast_libretro_EXPORTS</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>mswsock.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;ws2_32.lib;iphlpapi.lib;winmm.lib;advapi32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>..\\build-libretro\Release\flycast_libretro.lib</ImportLibrary>
+      <ProgramDataBaseFile>..\\build-libretro\Release\flycast_libretro.pdb</ProgramDataBaseFile>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\\build-libretro\\include;..\\core\\deps\\libchdr\\include;..\\core;..\\core\deps;..\\core\deps\stb;..\\core\deps\json;..\\core\khronos;..\\core\deps\dirent;..\\core\deps\picotcp\include;..\\core\deps\picotcp\modules;..\\core\deps\libretro-common\include;..\\core\deps\xxHash;..\\core\deps\glm;..\\core\deps\glslang;..\\core\deps\glslang\glslang;..\\core\deps\glslang\SPIRV;..\\core\deps\ggpo\include;..\\core\deps\ggpo\lib\ggpo;..\\core\deps\libchdr\include;..\\core\deps\libchdr\deps\zlib-1.2.11;..\\core\deps\libchdr\deps\zlib-1.3.1;..\\core\deps\libchdr\deps\zstd-1.5.6\lib;..\core\deps\libchdr\deps\lzma-24.05\include;..\\core\deps\nowide\include;..\\core\deps\miniupnpc\include;..\\core\deps\miniupnpc;..\\core\deps\libzip\lib;..\\build-libretro\core\deps\libzip;..\\core\deps\libelf\include;..\\core\deps\Vulkan-Headers\include;..\\core\deps\VulkanMemoryAllocator\include;..\\core\deps\xbyak;..\\core\dojo;..\\core\dojo\deps;..\\core\dojo\deps\asio-1.22.0\include;..\\shell\libretro;..\\build-libretro\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8</AdditionalOptions>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <OpenMPSupport>true</OpenMPSupport>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);NDEBUG;LIBRETRO;_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNING;NOMINMAX;_USE_MATH_DEFINES;_7ZIP_ST;VK_ENABLE_BETA_EXTENSIONS;VK_NO_PROTOTYPES;VK_USE_PLATFORM_WIN32_KHR;USE_VULKAN;HAVE_VULKAN;USE_OPENGL;HAVE_OPENGL;HAVE_OPENGL_MODERN;HAVE_D3D11;NOWIDE_NO_LIB;MINIUPNP_STATICLIB;DOJO_NO_CPR;DOJO_NO_CURL;USE_GGPO;HAVE_CRYPTO;HAVE_WINDOWS_CRYPTO;CMAKE_INTDIR=&quot;MinSizeRel&quot;;flycast_libretro_EXPORTS</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>mswsock.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;ws2_32.lib;iphlpapi.lib;winmm.lib;advapi32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;bcrypt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>..\\build-libretro\MinSizeRel\flycast_libretro.lib</ImportLibrary>
+      <ProgramDataBaseFile>..\\build-libretro\MinSizeRel\flycast_libretro.pdb</ProgramDataBaseFile>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\\build-libretro\\include;..\\core\\deps\\libchdr\\include;..\\core;..\\core\deps;..\\core\deps\stb;..\\core\deps\json;..\\core\khronos;..\\core\deps\dirent;..\\core\deps\picotcp\include;..\\core\deps\picotcp\modules;..\\core\deps\libretro-common\include;..\\core\deps\xxHash;..\\core\deps\glm;..\\core\deps\glslang;..\\core\deps\glslang\glslang;..\\core\deps\glslang\SPIRV;..\\core\deps\ggpo\include;..\\core\deps\ggpo\lib\ggpo;..\\core\deps\libchdr\include;..\\core\deps\libchdr\deps\zlib-1.2.11;..\\core\deps\libchdr\deps\zlib-1.3.1;..\\core\deps\libchdr\deps\zstd-1.5.6\lib;..\core\deps\libchdr\deps\lzma-24.05\include;..\\core\deps\nowide\include;..\\core\deps\miniupnpc;..\\core\deps\miniupnpc\include;..\\core\deps\libzip\lib;..\\build-libretro\core\deps\libzip;..\\core\deps\libelf\include;..\\core\deps\Vulkan-Headers\include;..\\core\deps\VulkanMemoryAllocator\include;..\\core\deps\xbyak;..\\core\dojo;..\\core\dojo\deps;..\\core\dojo\deps\asio-1.22.0\include;..\\shell\libretro;..\\build-libretro\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /utf-8</AdditionalOptions>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <OpenMPSupport>true</OpenMPSupport>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <ObjectFileName>$(IntDir)%(RelativeDir)%(Filename).obj</ObjectFileName>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);NDEBUG;LIBRETRO;_CRT_NONSTDC_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;_WINSOCK_DEPRECATED_NO_WARNING;NOMINMAX;_USE_MATH_DEFINES;_7ZIP_ST;VK_ENABLE_BETA_EXTENSIONS;VK_NO_PROTOTYPES;VK_USE_PLATFORM_WIN32_KHR;USE_VULKAN;HAVE_VULKAN;USE_OPENGL;HAVE_OPENGL;HAVE_OPENGL_MODERN;HAVE_D3D11;NOWIDE_NO_LIB;MINIUPNP_STATICLIB;DOJO_NO_CPR;DOJO_NO_CURL;USE_GGPO;HAVE_CRYPTO;HAVE_WINDOWS_CRYPTO;CMAKE_INTDIR=&quot;RelWithDebInfo&quot;;flycast_libretro_EXPORTS</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>mswsock.lib;opengl32.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;ws2_32.lib;iphlpapi.lib;winmm.lib;advapi32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>..\\build-libretro\RelWithDebInfo\flycast_libretro.lib</ImportLibrary>
+      <ProgramDataBaseFile>..\\build-libretro\RelWithDebInfo\flycast_libretro.pdb</ProgramDataBaseFile>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ClCompile Include="..\\core\*.cpp" />
+    <ClCompile Include="..\\core\archive\*.cpp" />
+    <ClCompile Include="..\\core\dojo\*.cpp" Exclude="..\\core\dojo\DojoGui.cpp" />
+    <ClCompile Include="..\\core\dojo\deps\StringFix\*.cpp" />
+    <ClCompile Include="..\\core\hw\**\*.cpp" />
+    <ClCompile Include="..\\core\hw\**\*.c" />
+    <ClCompile Include="..\\core\imgread\*.cpp" />
+    <ClCompile Include="..\\core\cfg\*.cpp" />
+    <ClCompile Update="..\\core\\cfg\\option.cpp">
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\\core\input\*.cpp" />
+    <ClCompile Include="..\\core\network\*.cpp" />
+    <ClCompile Include="..\\core\network\*.c" />
+    <ClCompile Include="..\\core\lua\*.cpp" />
+    <ClCompile Include="..\\core\rec-cpp\*.cpp" />
+    <ClCompile Include="..\\core\rec-x64\*.cpp" />
+    <ClCompile Include="..\\core\reios\*.cpp" />
+    <ClCompile Include="..\\core\rend\*.cpp" Exclude="..\\core\rend\gui*.cpp;..\\core\rend\mainui.cpp;..\\core\rend\gui_android.cpp;..\\core\rend\gui_cheats.cpp;..\\core\rend\gui_settings.cpp;..\\core\rend\gui_util.cpp" />
+    <ClCompile Include="..\\core\rend\norend\*.cpp" />
+    <ClCompile Include="..\\core\rend\gles\*.cpp" Exclude="..\\core\rend\gles\imgui_impl_opengl3.cpp;..\\core\rend\gles\opengl_driver.cpp" />
+    <ClCompile Include="..\\core\rend\gl4\*.cpp" />
+    <ClCompile Include="..\\core\rend\vulkan\*.cpp" Exclude="..\\core\rend\vulkan\imgui_impl_vulkan.cpp;..\\core\rend\vulkan\vulkan_context.cpp" />
+    <ClCompile Include="..\\core\rend\vulkan\oit\*.cpp" />
+    <ClCompile Include="..\\core\rend\dx11\*.cpp" Exclude="..\\core\rend\dx11\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\\core\rend\dx11\oit\*.cpp" />
+    <ClCompile Include="..\\core\wsi\gl_context.cpp" />
+    <ClCompile Include="..\\core\wsi\libretro.cpp" />
+    <ClCompile Include="..\\core\wsi\switcher.cpp" />
+    <ClCompile Include="..\\core\wsi\gl4funcs.cpp" />
+    <ClCompile Include="..\\core\windows\*.cpp" Exclude="..\\core\windows\winmain.cpp;..\\core\windows\rawinput.cpp" />
+
+    <ClCompile Include="..\\core\deps\chdpsr\*.cpp" />
+    <ClCompile Include="..\\core\deps\picotcp\modules\*.c" />
+    <ClCompile Include="..\\core\deps\picotcp\stack\*.c" />
+    <ClCompile Include="..\\core\deps\lzma\*.c" />
+    <ClCompile Include="..\\core\deps\xbrz\xbrz.cpp" />
+    <ClCompile Include="..\\core\deps\md5\md5.cpp" />
+    <ClCompile Include="..\\core\deps\xxHash\xxhash.c" />
+
+    <ClCompile Include="..\\core\deps\libretro-common\memmap\memalign.c" />
+    <ClCompile Include="..\\core\deps\libretro-common\file\file_path.c" />
+    <ClCompile Include="..\\core\deps\libretro-common\vfs\vfs_implementation.c" />
+    <ClCompile Include="..\\core\deps\libretro-common\encodings\encoding_utf.c" />
+    <ClCompile Include="..\\core\deps\libretro-common\compat\compat_strl.c" />
+    <ClCompile Include="..\\core\deps\libretro-common\compat\fopen_utf8.c" />
+    <ClCompile Include="..\\core\deps\libretro-common\compat\compat_strcasestr.c" />
+    <ClCompile Include="..\\core\deps\libretro-common\file\retro_dirent.c" />
+    <ClCompile Include="..\\core\deps\libretro-common\string\stdstring.c" />
+    <ClCompile Include="..\\core\deps\libretro-common\glsm\glsm.c" />
+    <ClCompile Include="..\\core\deps\libretro-common\glsym\rglgen.c" />
+    <ClCompile Include="..\\core\deps\libretro-common\glsym\glsym_gl.c" />
+
+    <ClCompile Include="..\\shell\libretro\audiostream.cpp" />
+    <ClCompile Include="..\\shell\libretro\libretro.cpp" />
+    <ClCompile Include="..\\shell\libretro\gui_stub.cpp" />
+    <ClCompile Include="..\\shell\libretro\LogManager.cpp" />
+    <ClCompile Include="..\\shell\libretro\option.cpp" />
+    <ClCompile Include="..\\shell\libretro\oslib.cpp" />
+    <ClCompile Include="..\\shell\libretro\vmu_xhair.cpp" />
+    <ClCompile Include="..\\shell\libretro\msvc_compat.c" />
+
+    <ClCompile Include="..\\core\deps\libchdr\src\*.c" />
+    <ClCompile Include="..\\core\deps\libchdr\src\*.cpp" />
+    <ClCompile Include="..\\core\deps\libchdr\deps\zlib-1.2.11\*.c" />
+    <ClCompile Include="..\\core\deps\libchdr\deps\zlib-1.3.1\*.c" />
+    <ClCompile Include="..\\core\deps\libchdr\deps\zstd-1.5.6\lib\common\*.c" />
+    <ClCompile Include="..\\core\deps\libchdr\deps\zstd-1.5.6\lib\compress\*.c" />
+    <ClCompile Include="..\\core\deps\libchdr\deps\zstd-1.5.6\lib\decompress\*.c" />
+    <ClCompile Include="..\\core\deps\libchdr\deps\zstd-1.5.6\lib\dictBuilder\*.c" />
+    <ClCompile Include="..\\core\deps\libchdr\deps\zstd-1.5.6\lib\deprecated\*.c" />
+
+    <ClCompile Include="..\\core\deps\libzip\lib\*.c" Exclude="..\\core\deps\libzip\lib\zip_algorithm_bzip2.c;..\\core\deps\libzip\lib\zip_algorithm_xz.c;..\\core\deps\libzip\lib\zip_crypto_commoncrypto.c;..\\core\deps\libzip\lib\zip_crypto_gnutls.c;..\\core\deps\libzip\lib\zip_crypto_mbedtls.c;..\\core\deps\libzip\lib\zip_crypto_openssl.c;..\\core\deps\libzip\lib\zip_random_unix.c;..\\core\deps\libzip\lib\zip_random_uwp.c;..\\core\deps\libzip\lib\zip_source_file_stdio_named.c" />
+    <ClCompile Include="..\\core\deps\libzip\lib\compat\*.c" />
+    <ClCompile Include="..\\core\deps\libelf\src\*.c" />
+    <ClCompile Include="..\\core\deps\miniupnpc\src\*.c" Exclude="..\\core\deps\miniupnpc\src\upnpc.c;..\\core\deps\miniupnpc\src\minihttptestserver.c;..\\core\deps\miniupnpc\src\miniupnpcmodule.c;..\\core\deps\miniupnpc\src\listdevices.c;..\\core\deps\miniupnpc\src\minixmlvalid.c;..\\core\deps\miniupnpc\src\testaddr_is_reserved.c;..\\core\deps\miniupnpc\src\testigddescparse.c;..\\core\deps\miniupnpc\src\testminiwget.c;..\\core\deps\miniupnpc\src\testminixml.c;..\\core\deps\miniupnpc\src\testportlistingparse.c;..\\core\deps\miniupnpc\src\testupnpreplyparse.c" />
+    <ClCompile Include="..\\core\deps\nowide\src\*.cpp" />
+
+    <ClCompile Include="..\\core\deps\glslang\glslang\*.cpp" />
+    <ClCompile Include="..\\core\deps\glslang\glslang\GenericCodeGen\*.cpp" />
+    <ClCompile Include="..\\core\deps\glslang\glslang\MachineIndependent\*.cpp" />
+    <ClCompile Include="..\\core\deps\glslang\glslang\MachineIndependent\preprocessor\*.cpp" />
+    <ClCompile Include="..\\core\deps\glslang\glslang\OSDependent\Windows\*.cpp" />
+    <ClCompile Include="..\\core\deps\glslang\glslang\ResourceLimits\*.cpp" />
+    <ClCompile Include="..\\core\deps\glslang\glslang\CInterface\*.cpp" />
+    <ClCompile Include="..\\core\deps\glslang\SPIRV\*.cpp" />
+    <ClCompile Include="..\\core\deps\glslang\SPIRV\CInterface\*.cpp" />
+
+    <ClCompile Include="..\\core\deps\ggpo\lib\ggpo\**\*.cpp" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
+</Project>
