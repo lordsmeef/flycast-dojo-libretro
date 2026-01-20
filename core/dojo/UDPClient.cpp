@@ -340,7 +340,6 @@ void UDPClient::ClientLoop()
 			if (memcmp("CODE", buffer, 4) == 0)
 			{
 				config::MatchCode = std::string(buffer + 5, strlen(buffer + 5));
-				std::cout << config::MatchCode.get() << std::endl;
 			}
 
 			if (memcmp("OPPADDR", buffer, 7) == 0)
@@ -570,4 +569,3 @@ void UDPClient::ClientThread()
 	if (!config::GGPOEnable)
 		EndSession();
 }
-

@@ -71,6 +71,7 @@
 #include "rend/osd.h"
 #include "cfg/option.h"
 #include "network/ggpo.h"
+#include "dojo/DojoSession.hpp"
 #include "stdclass.h"
 #include "version.h"
 #include "rend/transform_matrix.h"
@@ -146,6 +147,11 @@ static bool ggpo_options_logged = false;
 static bool ggpo_deferred_state_load = false;
 static bool ggpo_waiting_notified = false;
 static bool ggpo_refresh_after_start = false;
+static bool dojo_session_started = false;
+static std::string last_dojo_match_code;
+static std::string pending_dojo_match_code;
+static std::chrono::steady_clock::time_point pending_dojo_match_code_at;
+static bool pending_dojo_match_code_set = false;
 
 u32 vks[4];
 
@@ -187,6 +193,8 @@ static void init_disk_control_interface();
 static bool read_m3u(const char *file);
 void gui_display_notification(const char *msg, int duration);
 static void updateVibration(u32 port, float power, float inclination, u32 durationMs);
+static void maybe_start_dojo_session();
+static void maybe_log_dojo_match_code();
 
 static std::string game_data;
 static char g_base_name[128];
@@ -784,6 +792,15 @@ static bool is_preset_ggpo_ip(const std::string& ip)
 		|| ip == "10.0.0.2";
 }
 
+static std::string trim_copy(const std::string& value)
+{
+	size_t start = value.find_first_not_of(" \t\r\n");
+	if (start == std::string::npos)
+		return "";
+	size_t end = value.find_last_not_of(" \t\r\n");
+	return value.substr(start, end - start + 1);
+}
+
 static void update_ggpo_options(bool first_startup)
 {
 	bool ggpo_port_set = false;
@@ -807,6 +824,14 @@ static void update_ggpo_options(bool first_startup)
 	var.key = CORE_OPTION_NAME "_ggpo_enable";
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 		config::GGPOEnable = !strcmp(var.value, "enabled");
+
+	var.key = CORE_OPTION_NAME "_ggpo_role";
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+		config::ActAsServer = !strcmp(var.value, "host");
+
+	var.key = CORE_OPTION_NAME "_match_code_enable";
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+		config::EnableMatchCode = !strcmp(var.value, "enabled");
 
 	var.key = CORE_OPTION_NAME "_ggpo_remote_port";
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -837,6 +862,24 @@ static void update_ggpo_options(bool first_startup)
 		config::NetworkServer = env_ip;
 	else if (core_opts_ip_set && !core_opts_ip.empty())
 		config::NetworkServer = core_opts_ip;
+
+	std::string match_code;
+	var.key = CORE_OPTION_NAME "_match_code";
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+		match_code = var.value;
+	else
+		read_retroarch_option_override(CORE_OPTION_NAME "_match_code", match_code);
+	if (!match_code.empty())
+	{
+		std::string trimmed = trim_copy(match_code);
+		if (trimmed == "unset")
+			trimmed.clear();
+		if (!trimmed.empty())
+		{
+			config::MatchCode = trimmed;
+			dojo.MatchCode = trimmed;
+		}
+	}
 
 	{
 		int port = config::GGPOPort.get();
@@ -871,6 +914,89 @@ static void update_ggpo_options(bool first_startup)
 			config::GGPORemotePort.get(),
 			ggpo_remote_port_str ? ggpo_remote_port_str : "(none)");
 		ggpo_options_logged = true;
+	}
+
+	if (config::GGPOEnable || config::EnableMatchCode)
+	{
+		config::DojoEnable.set(true);
+		config::DojoActAsServer.set(config::ActAsServer.get());
+	}
+}
+
+static void maybe_log_dojo_match_code()
+{
+	if (!config::EnableMatchCode || !config::DojoActAsServer)
+	{
+		last_dojo_match_code.clear();
+		pending_dojo_match_code.clear();
+		pending_dojo_match_code_set = false;
+		return;
+	}
+
+	std::string match_code = config::MatchCode.get();
+	if (match_code.empty() || match_code == "unset")
+	{
+		last_dojo_match_code.clear();
+		pending_dojo_match_code.clear();
+		pending_dojo_match_code_set = false;
+		return;
+	}
+
+	if (match_code == last_dojo_match_code)
+	{
+		pending_dojo_match_code.clear();
+		pending_dojo_match_code_set = false;
+		return;
+	}
+
+	auto now = std::chrono::steady_clock::now();
+	if (!pending_dojo_match_code_set || pending_dojo_match_code != match_code)
+	{
+		pending_dojo_match_code = match_code;
+		pending_dojo_match_code_at = now;
+		pending_dojo_match_code_set = true;
+		return;
+	}
+
+	auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+		now - pending_dojo_match_code_at).count();
+	if (elapsed_ms < 500)
+		return;
+
+	last_dojo_match_code = match_code;
+	pending_dojo_match_code.clear();
+	pending_dojo_match_code_set = false;
+
+	if (log_cb)
+		log_cb(RETRO_LOG_INFO, "Match Code: %s\n", match_code.c_str());
+
+	if (environ_cb)
+	{
+		static char msg_buf[128];
+		snprintf(msg_buf, sizeof(msg_buf), "Match Code: %s", match_code.c_str());
+		retro_message msg{msg_buf, 600};
+		environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
+	}
+}
+
+static void maybe_start_dojo_session()
+{
+	if (dojo_session_started)
+		return;
+	if (!config::EnableMatchCode || !config::DojoEnable)
+		return;
+
+	dojo.Init();
+	int result = dojo.StartDojoSession();
+	if (result == 0)
+	{
+		dojo_session_started = true;
+		if (log_cb)
+			log_cb(RETRO_LOG_INFO, "[Dojo] Matchmaking session started.\n");
+	}
+	else if (log_cb)
+	{
+		log_cb(RETRO_LOG_ERROR, "[Dojo] Matchmaking session failed to start.\n");
 	}
 }
 
@@ -1264,6 +1390,12 @@ static void maybe_start_ggpo()
 {
 	if (!config::GGPOEnable || ggpo::active() || ggpo_start_attempted)
 		return;
+	if (config::EnableMatchCode)
+	{
+		std::string peer_ip = config::NetworkServer.get();
+		if (peer_ip.empty() || is_preset_ggpo_ip(peer_ip))
+			return;
+	}
 
 	ggpo_start_attempted = true;
 	if (config::GGPOPort.get() <= 0)
@@ -1336,8 +1468,10 @@ void retro_run()
 		}
 	}
 
+	maybe_start_dojo_session();
 	maybe_start_ggpo();
 	poll_ggpo_start_result();
+	maybe_log_dojo_match_code();
 
 	if (config::GGPOEnable && ggpo_deferred_state_load)
 	{
@@ -2336,6 +2470,7 @@ void retro_unload_game()
 	ggpo_start_attempted = false;
 	ggpo_deferred_state_load = false;
 	ggpo_waiting_notified = false;
+	dojo_session_started = false;
 	game_data.clear();
 	disk_paths.clear();
 	disk_labels.clear();
